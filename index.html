@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
+ <style>
+     *{
+         margin: 0;
+         padding: 0;
+     }
+     body{
+         background-image: url("https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?cs=srgb&dl=pexels-pixabay-531880.jpg&fm=jpg");
+        background-position: center;
+        background-attachment: fixed;
+        background-size: cover;
+     }
+     .form-div{
+         width: 400px;
+         height: 600px;
+         box-shadow: 0 0 5px 0 black;
+         margin: 150px auto;
+         background:rgba(255, 255, 255, 0.671);
+     }
+     #header-title{
+        text-align: center;
+        font-size: 30px;
+        padding: 20px;
+        color: #00dcff;
+     }
+     .box{
+        width: 80%;
+         height: 50px;
+         display: block;
+         margin: 40px auto;
+         position: relative;
+     }
+     input{
+         width: 100%;
+         height: 30px;
+         outline: none;
+         font-size: 16px;
+     }
+    .box-icon1:after{
+         content: "\f057";
+         font-family: "font awesome 5 free";
+         font-weight: 500;
+         position: absolute;
+         right: 5px;
+         bottom: 5px;
+        color:red;
+     }
+     .box-icon2:after{
+         content: "\f058";
+         font-family: "font awesome 5 free";
+         font-weight: 500;
+         position: absolute;
+         right: 5px;
+         bottom: 5px;
+        color:rgb(38, 241, 248);
+        }
+     .box:last-child::after{
+        content: "";
+     }
+     small{
+         color: red;
+     }
+ </style>
+</head>
+<body>
+<section>
+    <div class="form-div">
+        <h1 id="header-title">Learn Form validation</h1>
+        <form id="form">
+            <div class="box ">
+            <label>Username</label><br/>
+            <input type="text" name="" id="username"><br/>
+            <small></small><br/>
+            </div>
+            <div class="box">
+            <label>E-mail</label><br/>
+            <input type="text" name="" id="email"  ><br/>
+            <small></small><br/>
+            </div>
+            <div class="box">
+                <label>Mobile Number</label><br/>
+                <input type="number" name="" id="mobile"  ><br/>
+                <small></small><br/>
+                </div>
+            <div class="box">
+            <label>Password</label><br/>
+            <input type="text" name="" id="password"  ><br/>
+            <small></small><br/>
+            </div>
+            <div class="box">
+            <label>Confirm Password</label><br/>
+            <input type="text" name="" id="password2"  ><br/>
+            <small></small><br/>
+            </div>
+            <div class="box">
+            <input type="submit" name="" id="submit">
+        </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    var username=document.getElementById("username");
+    var email=document.getElementById("email");
+    var mobile=document.getElementById("mobile");
+    var password=document.getElementById("password");
+    var password2=document.getElementById("password2");
+
+ 
+    
+
+
+document.getElementById("form").addEventListener("submit",function(w){
+    var usernameval=username.value.trim();
+    var emailval=email.value.trim();
+    var mobileval=mobile.value.trim();
+    var passwordval=password.value.trim();
+    var password2val=password2.value.trim();
+w.preventDefault();
+
+    //Username Validation//
+    if(usernameval===""){
+        setError(username,"Username Is Required");
+    }else if(usernameval.length < 3){
+        setError(username,"Username Must be 3 car");
+    }else{
+        setSuccess(username);
+    }
+
+    //Email Validation//
+    if(emailval===""){
+        setError(email,"Eamil Is Required");
+    }else if(isEmail(emailval)){
+        setError(email,"It's Not a E-mail");
+    }else{
+        setSuccess(email);
+    }
+
+    //Mobile Validation//
+    if(mobileval===""){
+        setError(mobile,"Username Is Required");
+    }else if(mobileval.length !== 11){
+        setError(mobile,"It's Not a Mobile Number");
+    }else if(isMobile(mobileval)){
+        setError(mobile,"It's Not a Mobile Number");
+    }
+    else{
+        setSuccess(mobile);
+    }
+    //Password Validation//
+    if(passwordval===""){
+        setError(password,"Username Is Required");
+    }else if(mobileval===passwordval){
+        setError(password,"Phone Number not a Password");
+    }else if(usernameval===passwordval){
+        setError(password,"Username not a Password");
+    }
+    else if(passwordval.length < 8){
+        setError(password,"Username Must be 8 car");
+    }else{
+        setSuccess(password);
+    }
+    //Confirm Password Validation//
+    if(password2val===""){
+        setError(password2,"Username Is Required");
+    }else if(passwordval !== password2val){
+        setError(password2,"Password Not Match");
+    }else{
+        setSuccess(password2);
+    }
+
+});
+
+function setError(input,msg){
+    var box=input.parentElement;
+    var small=box.querySelector("small");
+    small.innerText=msg;
+    box.classList.add("box-icon1")
+    box.classList.remove("box-icon2");
+    input.style.borderColor="red";
+}
+function setSuccess(input){
+    var box=input.parentElement;
+    var small=box.querySelector("small");
+    input.style.borderColor="rgb(38, 241, 248)";
+    small.innerText="";
+    box.classList.remove("box-icon1");
+    box.classList.add("box-icon2");
+}
+function isEmail(value){
+    let symbol =value.indexOf("@");
+    let dot= value.lastIndexOf(".");
+    if(symbol<3)return true;
+    if(dot<=symbol+3)return true;
+    if(dot === value.length-1)return true;
+    return false;
+};
+function isMobile(value){
+    let jiro= value.indexOf("0");
+    let one=value.indexOf("1");
+    if(jiro==0)return false;
+    if(one ==1)return false;
+    return true;
+};
+
+
+
+
+
+</script>
+    
+
+</body>
+</html>
